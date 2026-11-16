@@ -21,11 +21,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
 
       # STATS_TOKEN: classic PAT with repo + read:user. Falls back to GITHUB_TOKEN (public data only).
       - name: Generate stats card
-        uses: stats-organization/github-readme-stats-action@v2
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2.1.0
         with:
           card: stats
           options: username=${{ github.repository_owner }}&show_icons=true&hide_border=true&bg_color=30,030b1f,0a2259,1450b8&title_color=79c0ff&icon_color=58a6ff&text_color=dbe9ff&ring_color=58a6ff&count_private=true
@@ -34,7 +34,7 @@ jobs:
           fail_on_error: true
 
       - name: Generate top languages card
-        uses: stats-organization/github-readme-stats-action@v2
+        uses: stats-organization/github-readme-stats-action@2c498845f71017821efaad14293ebc736156ef21 # v2.1.0
         with:
           card: top-langs
           options: username=${{ github.repository_owner }}&layout=compact&hide_border=true&bg_color=30,030b1f,0a2259,1450b8&title_color=79c0ff&text_color=dbe9ff
