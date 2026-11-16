@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="150" viewBox="0 0 1200 150" role="img" aria-label="Paw prints over blue waves">
+  <title>Thanks for visiting</title>
+  <defs>
+    <clipPath id="f"><rect width="1200" height="150" rx="18"/></clipPath>
+  </defs>
+  <style>
+    .paw { fill:#ffffff; opacity:0; animation: step 6.3s ease-in-out infinite; }
+    @keyframes step { 0% { opacity:0 } 8% { opacity:.9 } 55% { opacity:.9 } 75%,100% { opacity:0 } }
+    .w1 { animation: drift 12s linear infinite; }
+    .w2 { animation: drift 8s linear infinite reverse; }
+    @keyframes drift { from { transform: translateX(0) } to { transform: translateX(-240px) } }
+  </style>
+  <g clip-path="url(#f)">
+    <g class="w1"><path d="M0,40 Q60.0,30 120.0,40 T240,40 T360,40 T480,40 T600,40 T720,40 T840,40 T960,40 T1080,40 T1200,40 T1320,40 T1440,40 V150 H0 Z" fill="#0f3a8a"/></g>
+    <g class="w2"><path d="M0,56 Q60.0,48 120.0,56 T240,56 T360,56 T480,56 T600,56 T720,56 T840,56 T960,56 T1080,56 T1200,56 T1320,56 T1440,56 V150 H0 Z" fill="#1450b8"/></g>
+    <g class="paw" style="animation-delay:0.00s" transform="translate(160 60) rotate(90)"><ellipse cx="0" cy="6" rx="9" ry="7.5"/><circle cx="-9" cy="-5" r="3.6"/><circle cx="-3" cy="-10" r="3.6"/><circle cx="3" cy="-10" r="3.6"/><circle cx="9" cy="-5" r="3.6"/></g><g class="paw" style="animation-delay:0.45s" transform="translate(290 80) rotate(90)"><ellipse cx="0" cy="6" rx="9" ry="7.5"/><circle cx="-9" cy="-5" r="3.6"/><circle cx="-3" cy="-10" r="3.6"/><circle cx="3" cy="-10" r="3.6"/><circle cx="9" cy="-5" r="3.6"/></g><g class="paw" style="animation-delay:0.90s" transform="translate(420 60) rotate(90)"><ellipse cx="0" cy="6" rx="9" ry="7.5"/><circle cx="-9" cy="-5" r="3.6"/><circle cx="-3" cy="-10" r="3.6"/><circle cx="3" cy="-10" r="3.6"/><circle cx="9" cy="-5" r="3.6"/></g><g class="paw" style="animation-delay:1.35s" transform="translate(550 80) rotate(90)"><ellipse cx="0" cy="6" rx="9" ry="7.5"/><circle cx="-9" cy="-5" r="3.6"/><circle cx="-3" cy="-10" r="3.6"/><circle cx="3" cy="-10" r="3.6"/><circle cx="9" cy="-5" r="3.6"/></g><g class="paw" style="animation-delay:1.80s" transform="translate(680 60) rotate(90)"><ellipse cx="0" cy="6" rx="9" ry="7.5"/><circle cx="-9" cy="-5" r="3.6"/><circle cx="-3" cy="-10" r="3.6"/><circle cx="3" cy="-10" r="3.6"/><circle cx="9" cy="-5" r="3.6"/></g><g class="paw" style="animation-delay:2.25s" transform="translate(810 80) rotate(90)"><ellipse cx="0" cy="6" rx="9" ry="7.5"/><circle cx="-9" cy="-5" r="3.6"/><circle cx="-3" cy="-10" r="3.6"/><circle cx="3" cy="-10" r="3.6"/><circle cx="9" cy="-5" r="3.6"/></g><g class="paw" style="animation-delay:2.70s" transform="translate(940 60) rotate(90)"><ellipse cx="0" cy="6" rx="9" ry="7.5"/><circle cx="-9" cy="-5" r="3.6"/><circle cx="-3" cy="-10" r="3.6"/><circle cx="3" cy="-10" r="3.6"/><circle cx="9" cy="-5" r="3.6"/></g>
+    <text x="600.0" y="132" text-anchor="middle" font-family="'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="16" fill="#bfe0ff" letter-spacing="3">THANKS FOR VISITING  ·  NYAA</text>
+  </g>
+</svg>
