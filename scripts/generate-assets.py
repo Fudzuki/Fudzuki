@@ -1,10 +1,14 @@
-"""Generate assets/header.svg and assets/footer.svg for the GitHub profile README."""
+"""Generate assets/header.svg, assets/footer.svg and assets/typing.svg for the GitHub profile README.
+
+Usage: python3 scripts/generate-assets.py [OUT_DIR]   (OUT_DIR defaults to assets/)
+"""
 import math
 import random
 import sys
+from html import escape
 from pathlib import Path
 
-OUT = Path(sys.argv[1])
+OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).resolve().parent.parent / "assets"
 OUT.mkdir(parents=True, exist_ok=True)
 
 FONT = "'Segoe UI', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif"
@@ -353,6 +357,9 @@ header = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" vi
     @keyframes pulse {{ 0%,100% {{ transform: scale(1) }} 50% {{ transform: scale(1.06) }} }}
     .caret {{ animation: caret 1s steps(1) infinite; }}
     @keyframes caret {{ 50% {{ opacity:0 }} }}
+    @media (prefers-reduced-motion: reduce) {{
+      * {{ animation: none !important; }}
+    }}
   </style>
 
   <g clip-path="url(#frame)">
@@ -476,6 +483,10 @@ footer = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{FW}" height="{FH}" 
     .w1 {{ animation: drift 12s linear infinite; }}
     .w2 {{ animation: drift 8s linear infinite reverse; }}
     @keyframes drift {{ from {{ transform: translateX(0) }} to {{ transform: translateX(-240px) }} }}
+    @media (prefers-reduced-motion: reduce) {{
+      * {{ animation: none !important; }}
+      .paw {{ opacity:.9; }}
+    }}
   </style>
   <g clip-path="url(#f)">
     <g class="w1"><path d="{wave(40, 10, 240, FW, FH)}" fill="#0f3a8a"/></g>
@@ -486,6 +497,106 @@ footer = f"""<svg xmlns="http://www.w3.org/2000/svg" width="{FW}" height="{FH}" 
 </svg>
 """
 
+# ---------------------------------------------------------------- typing subtitle
+# Self-hosted replacement for readme-typing-svg: each line is typed, held, then erased.
+# Characters are individual <tspan>s whose visibility is switched with SMIL, so layout never
+# shifts. The caret is a second, overlaid line of "_" glyphs in the same monospace font: one
+# "_" per character slot, so whichever one is shown sits exactly after the last typed char.
+TW, TH, TFS = 520, 50, 20
+TYPING_LINES = [
+    "Building things with TypeScript",
+    "Wideplink / Discope / TAO",
+    "Powered by coffee and a white cat \U0001F408",
+]
+TYPE_TIME, HOLD_TIME, ERASE_STEP, GAP = 3.0, 0.8, 0.03, 0.25
+
+
+def is_wide(ch):
+    return ord(ch) >= 0x2E80
+
+
+def typing_timeline():
+    """Piecewise-constant states (start, line, count, caret_on) for one full loop, plus its length."""
+    states, t = [], 0.0
+    for li, line in enumerate(TYPING_LINES):
+        n = len(line)
+        step = TYPE_TIME / n
+        states.append((t, li, 0, True))
+        t += GAP
+        for k in range(1, n + 1):
+            states.append((t, li, k, True))
+            t += step
+        hold_end = t + HOLD_TIME
+        on = False
+        while t < hold_end - 1e-9:  # blink while holding the full line
+            t = min(t + 0.4, hold_end)
+            if t < hold_end - 1e-9:
+                states.append((t, li, n, on))
+                on = not on
+        for k in range(n - 1, -1, -1):
+            states.append((t, li, k, True))
+            t += ERASE_STEP
+    return states, t
+
+
+def visibility_anim(states, total, visible):
+    """<animate> that toggles visibility whenever visible(state) changes."""
+    values, times, prev = [], [], None
+    for start, *state in states:
+        v = "visible" if visible(*state) else "hidden"
+        if v != prev:
+            values.append(v)
+            times.append(start / total)
+            prev = v
+    if prev is None or values == ["hidden"]:
+        return ""
+    return (f'<animate attributeName="visibility" dur="{total:.3f}s" repeatCount="indefinite" calcMode="discrete" '
+            f'values="{";".join(values)}" keyTimes="{";".join(f"{x:.5f}" for x in times)}"/>')
+
+
+def typing_svg():
+    states, total = typing_timeline()
+    font = f"'JetBrains Mono', {MONO}"
+    y = TH / 2 + TFS * 0.35
+    lines = []
+    for li, line in enumerate(TYPING_LINES):
+        width = sum(TFS * (1.2 if is_wide(c) else 0.6) for c in line)
+        x = (TW - width) / 2
+        chars = "".join(
+            f'<tspan visibility="hidden">{escape(c)}'
+            + visibility_anim(states, total, lambda l, k, _c, i=i, li=li: l == li and k > i)
+            + "</tspan>"
+            for i, c in enumerate(line)
+        )
+        carets = "".join(
+            f'<tspan visibility="hidden">{escape(c) if is_wide(c) else "_"}'
+            + ("" if is_wide(c) else visibility_anim(states, total, lambda l, k, on, i=i, li=li: l == li and k == i and on))
+            + "</tspan>"
+            for i, c in enumerate(line + " ")
+        )
+        lines.append(f'<text x="{x:.1f}" y="{y:.1f}" xml:space="preserve">{chars}</text>')
+        lines.append(f'<text x="{x:.1f}" y="{y:.1f}" xml:space="preserve">{carets}</text>')
+    label = "; ".join(TYPING_LINES)
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{TW}" height="{TH}" viewBox="0 0 {TW} {TH}" role="img" aria-label="{escape(label)}">
+  <title>{escape(label)}</title>
+  <style>
+    .static {{ display:none; }}
+    @media (prefers-reduced-motion: reduce) {{
+      .anim {{ display:none; }}
+      .static {{ display:inline; }}
+    }}
+  </style>
+  <g font-family="{font}" font-size="{TFS}" font-weight="600" fill="#58a6ff">
+    <g class="anim">
+      {(chr(10) + "      ").join(lines)}
+    </g>
+    <text class="static" x="{TW / 2}" y="{y:.1f}" text-anchor="middle">{escape(TYPING_LINES[0])}</text>
+  </g>
+</svg>
+"""
+
+
 (OUT / "header.svg").write_text(header)
 (OUT / "footer.svg").write_text(footer)
+(OUT / "typing.svg").write_text(typing_svg())
 print("ok")

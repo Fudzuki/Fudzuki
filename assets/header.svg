@@ -121,6 +121,9 @@
     @keyframes pulse { 0%,100% { transform: scale(1) } 50% { transform: scale(1.06) } }
     .caret { animation: caret 1s steps(1) infinite; }
     @keyframes caret { 50% { opacity:0 } }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
+    }
   </style>
 
   <g clip-path="url(#frame)">
