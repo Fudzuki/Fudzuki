@@ -9,6 +9,10 @@
     .w1 { animation: drift 12s linear infinite; }
     .w2 { animation: drift 8s linear infinite reverse; }
     @keyframes drift { from { transform: translateX(0) } to { transform: translateX(-240px) } }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; }
+      .paw { opacity:.9; }
+    }
   </style>
   <g clip-path="url(#f)">
     <g class="w1"><path d="M0,40 Q60.0,30 120.0,40 T240,40 T360,40 T480,40 T600,40 T720,40 T840,40 T960,40 T1080,40 T1200,40 T1320,40 T1440,40 V150 H0 Z" fill="#0f3a8a"/></g>
