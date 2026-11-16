@@ -12,8 +12,12 @@
       <stop offset="1" stop-color="#58a6ff"/>
     </linearGradient>
     <linearGradient id="fur" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="1" stop-color="#dfeaff"/>
+      <stop offset="0" stop-color="#fffefb"/>
+      <stop offset="1" stop-color="#e2e9f9"/>
+    </linearGradient>
+    <linearGradient id="patch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e0d5c8"/>
+      <stop offset="1" stop-color="#c6b9ab"/>
     </linearGradient>
     <radialGradient id="moonGlow">
       <stop offset="0" stop-color="#cfe6ff" stop-opacity=".55"/>
@@ -27,6 +31,9 @@
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="3" result="b"/>
       <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.6"/>
     </filter>
     <clipPath id="frame"><rect width="1200" height="340" rx="18"/></clipPath>
   </defs>
@@ -176,48 +183,75 @@
 
     
   <g id="cat" transform="translate(1060 168) scale(.9)">
-    <!-- tail (behind body) -->
+    <defs>
+      <clipPath id="bodyClip"><path d="M-52,137 C-66,96 -42,48 0,48 C42,48 66,96 52,137 Q0,147 -52,137 Z"/></clipPath>
+      <clipPath id="headClip"><ellipse cx="0" cy="26" rx="41" ry="33"/></clipPath>
+      <clipPath id="lidL"><path d="M-27,19.6 L-5,22.6 V36 H-27 Z"/></clipPath>
+      <clipPath id="lidR"><path d="M27,19.6 L5,22.6 V36 H27 Z"/></clipPath>
+    </defs>
+    <!-- tail (behind body): greige with faint rings -->
     <g class="tail">
-      <path d="M38,128 C86,134 104,96 88,66 C82,54 92,44 100,52" fill="none"
-            stroke="url(#fur)" stroke-width="13" stroke-linecap="round"/>
+      <path d="M38,128 C86,134 104,96 88,66 C82,54 92,44 100,52" fill="none" stroke="url(#patch)" stroke-width="13" stroke-linecap="round"/>
+      <path d="M38,128 C86,134 104,96 88,66 C82,54 92,44 100,52" fill="none" stroke="#a89886" stroke-width="13" stroke-dasharray="3 12"
+            stroke-dashoffset="-34" opacity=".4"/>
     </g>
     <!-- body -->
-    <path d="M-46,136 C-58,92 -36,48 0,48 C36,48 58,92 46,136 Q0,146 -46,136 Z" fill="url(#fur)"/>
-    <path d="M-16,70 C-22,96 -18,120 -8,134 L8,134 C18,120 22,96 16,70 Z" fill="#ffffff" opacity=".9"/>
+    <path d="M-52,137 C-66,96 -42,48 0,48 C42,48 66,96 52,137 Q0,147 -52,137 Z" fill="url(#fur)"/>
+    <g clip-path="url(#bodyClip)">
+      <!-- greige patches wrapping round from the back -->
+      <g fill="url(#patch)" filter="url(#soft)">
+        <ellipse cx="-53" cy="104" rx="19" ry="25"/>
+        <ellipse cx="49" cy="76" rx="16" ry="19"/>
+        <ellipse cx="56" cy="122" rx="12" ry="14"/>
+      </g>
+      <!-- shadow under the chin -->
+      <ellipse cx="0" cy="56" rx="29" ry="8" fill="#ccd8ef" opacity=".6"/>
+    </g>
+    <path d="M-16,72 C-22,96 -18,120 -8,134 L8,134 C18,120 22,96 16,72 Z" fill="#ffffff" opacity=".85"/>
     <!-- front paws -->
     <ellipse cx="-15" cy="136" rx="13" ry="7.5" fill="#ffffff"/>
     <ellipse cx="15" cy="136" rx="13" ry="7.5" fill="#ffffff"/>
     <path d="M-19,134 v4 M-12,134 v4 M11,134 v4 M18,134 v4" stroke="#b9cff0" stroke-width="1.2" stroke-linecap="round"/>
-    <!-- collar + bell -->
-    <path d="M-27,56 Q0,70 27,56" fill="none" stroke="#1f6feb" stroke-width="6" stroke-linecap="round"/>
-    <circle cx="0" cy="67" r="5.5" fill="#ffd45c" stroke="#d9a520" stroke-width="1"/>
-    <path d="M-3,68 h6" stroke="#9a6d00" stroke-width="1.2" stroke-linecap="round"/>
     <!-- head -->
     <g class="head">
-      <path d="M-35,10 L-31,-26 L-6,0 Z" fill="url(#fur)"/>
-      <path d="M35,10 L31,-26 L6,0 Z" fill="url(#fur)"/>
-      <path d="M-29,4 L-27,-15 L-14,-1 Z" fill="#ffb6c8"/>
-      <path d="M29,4 L27,-15 L14,-1 Z" fill="#ffb6c8"/>
-      <ellipse cx="0" cy="26" rx="40" ry="33" fill="url(#fur)"/>
-      <!-- cheeks -->
-      <ellipse cx="-24" cy="38" rx="7" ry="4" fill="#ffb6c8" opacity=".55"/>
-      <ellipse cx="24" cy="38" rx="7" ry="4" fill="#ffb6c8" opacity=".55"/>
-      <!-- eyes -->
-      <g class="eyes">
-        <ellipse cx="-15" cy="24" rx="6.5" ry="8" fill="#2f8cff"/>
-        <ellipse cx="15" cy="24" rx="6.5" ry="8" fill="#2f8cff"/>
-        <ellipse cx="-15" cy="25" rx="2.4" ry="6" fill="#0a1a3a"/>
-        <ellipse cx="15" cy="25" rx="2.4" ry="6" fill="#0a1a3a"/>
-        <circle cx="-13" cy="20.5" r="2" fill="#fff"/>
-        <circle cx="17" cy="20.5" r="2" fill="#fff"/>
+      <!-- ears: greige outside, pink inside -->
+      <path d="M-38,12 Q-41,-14 -34,-31 Q-17,-19 -4,0 Z" fill="url(#patch)"/>
+      <path d="M38,12 Q41,-14 34,-31 Q17,-19 4,0 Z" fill="url(#patch)"/>
+      <path d="M-32,6 Q-33,-10 -30,-20 Q-20,-11 -13,0 Z" fill="#f6bcc4"/>
+      <path d="M32,6 Q33,-10 30,-20 Q20,-11 13,0 Z" fill="#f6bcc4"/>
+      <ellipse cx="0" cy="26" rx="41" ry="33" fill="url(#fur)"/>
+      <!-- forehead patches, split by a white blaze -->
+      <g clip-path="url(#headClip)">
+        <g fill="url(#patch)" filter="url(#soft)">
+          <path d="M-4,-14 H-50 V19 Q-38,19 -31,12 Q-19,5 -9,11 Q-4.5,4 -4,-14 Z"/>
+          <path d="M4,-14 H50 V19 Q38,19 31,12 Q19,5 9,11 Q4.5,4 4,-14 Z"/>
+        </g>
+        <path d="M-23,-1 L-21,7 M-14.5,-4 L-13.5,5 M23,-1 L21,7 M14.5,-4 L13.5,5"
+              stroke="#a89886" stroke-width="1.5" stroke-linecap="round" opacity=".45"/>
       </g>
-      <!-- nose + mouth -->
-      <path d="M-3.5,34 h7 L0,38.5 Z" fill="#ff8fab"/>
-      <path d="M-7,42 Q-3.5,45 0,39 Q3.5,45 7,42" fill="none" stroke="#8aa3c7" stroke-width="1.4" stroke-linecap="round"/>
+      <!-- eyes: pale blue, heavy lids -->
+      <g class="eyes">
+        <g clip-path="url(#lidL)">
+          <circle cx="-15.5" cy="25" r="7.8" fill="#b4d5f4" stroke="#6f9dd0" stroke-width="1.1"/>
+          <circle cx="-15.5" cy="26" r="4.3" fill="#131d38"/>
+          <circle cx="-13.4" cy="24.6" r="1.6" fill="#fff"/>
+        </g>
+        <g clip-path="url(#lidR)">
+          <circle cx="15.5" cy="25" r="7.8" fill="#b4d5f4" stroke="#6f9dd0" stroke-width="1.1"/>
+          <circle cx="15.5" cy="26" r="4.3" fill="#131d38"/>
+          <circle cx="17.6" cy="24.6" r="1.6" fill="#fff"/>
+        </g>
+        <path d="M-24.4,20 L-7.6,22.3 M24.4,20 L7.6,22.3" stroke="#66728c" stroke-width="1.4" stroke-linecap="round"/>
+      </g>
+      <!-- nose (pink, one freckle) + mouth -->
+      <ellipse cx="0" cy="30.5" rx="3.2" ry="4.5" fill="#f9cdd2" opacity=".55"/>
+      <path d="M-4.6,34 Q0,32.6 4.6,34 Q3.2,38.6 0,39.6 Q-3.2,38.6 -4.6,34 Z" fill="#f29aa6"/>
+      <circle cx="2.8" cy="37.4" r=".7" fill="#6a5656"/>
+      <path d="M-6.5,44.5 Q-3,45.5 0,40 Q3,45.5 6.5,44.5" fill="none" stroke="#8aa3c7" stroke-width="1.4" stroke-linecap="round"/>
       <!-- whiskers -->
-      <g stroke="#c4d6f2" stroke-width="1.1" stroke-linecap="round">
-        <path d="M-20,37 L-50,32 M-20,40 L-50,42"/>
-        <path d="M20,37 L50,32 M20,40 L50,42"/>
+      <g stroke="#dfe8f8" stroke-width="1.1" stroke-linecap="round">
+        <path d="M-20,38 L-52,33 M-20,41 L-52,44"/>
+        <path d="M20,38 L52,33 M20,41 L52,44"/>
       </g>
     </g>
   </g>
