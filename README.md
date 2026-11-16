@@ -37,8 +37,8 @@ const kusanagi = {
 ### 📊 GitHub stats
 
 <p align="center">
-  <img height="165" src="https://github-readme-stats.vercel.app/api?username=Fudzuki&show_icons=true&hide_border=true&bg_color=30,030b1f,0a2259,1450b8&title_color=79c0ff&icon_color=58a6ff&text_color=dbe9ff&ring_color=58a6ff&count_private=true" alt="GitHub stats" />
-  <img height="165" src="https://github-readme-stats.vercel.app/api/top-langs/?username=Fudzuki&layout=compact&hide_border=true&bg_color=30,030b1f,0a2259,1450b8&title_color=79c0ff&text_color=dbe9ff" alt="Top languages" />
+  <img height="165" src="https://github-stats-extended.vercel.app/api?username=Fudzuki&show_icons=true&hide_border=true&bg_color=30,030b1f,0a2259,1450b8&title_color=79c0ff&icon_color=58a6ff&text_color=dbe9ff&ring_color=58a6ff&count_private=true" alt="GitHub stats" />
+  <img height="165" src="https://github-stats-extended.vercel.app/api/top-langs/?username=Fudzuki&layout=compact&hide_border=true&bg_color=30,030b1f,0a2259,1450b8&title_color=79c0ff&text_color=dbe9ff" alt="Top languages" />
 </p>
 
 <p align="center">
