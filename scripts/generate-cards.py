@@ -156,10 +156,33 @@ def nice_max(v):
     return 4 * step
 
 
+def monotone_path(pts):
+    """Smooth path through pts that never overshoots (monotone cubic / Fritsch-Carlson)."""
+    n = len(pts)
+    dx = [pts[i + 1][0] - pts[i][0] for i in range(n - 1)]
+    m = [(pts[i + 1][1] - pts[i][1]) / dx[i] for i in range(n - 1)]
+    t = [m[0]] + [0 if m[i - 1] * m[i] <= 0 else (m[i - 1] + m[i]) / 2 for i in range(1, n - 1)] + [m[-1]]
+    for i in range(n - 1):
+        if m[i] == 0:
+            t[i] = t[i + 1] = 0
+        else:
+            a, b = t[i] / m[i], t[i + 1] / m[i]
+            h = a * a + b * b
+            if h > 9:
+                k = 3 / h ** 0.5
+                t[i], t[i + 1] = k * a * m[i], k * b * m[i]
+    d = f"M{pts[0][0]:.1f},{pts[0][1]:.1f}"
+    for i in range(n - 1):
+        (x0, y0), (x1, y1) = pts[i], pts[i + 1]
+        h = dx[i] / 3
+        d += f" C{x0 + h:.1f},{y0 + t[i] * h:.1f} {x1 - h:.1f},{y1 - t[i + 1] * h:.1f} {x1:.1f},{y1:.1f}"
+    return d
+
+
 def activity_svg(days):
     recent = list(days.items())[-ACTIVITY_DAYS:]
     w, h = 1200, 360
-    left, right, top, bottom = 70, 30, 70, 50
+    left, right, top, bottom = 70, 30, 70, 70
     pw, ph = w - left - right, h - top - bottom
     ymax = nice_max(max(c for _, c in recent))
 
@@ -170,8 +193,8 @@ def activity_svg(days):
         return top + ph * (1 - c / ymax)
 
     pts = [(px(i), py(c)) for i, (_, c) in enumerate(recent)]
-    line = " ".join(f"{x:.1f},{y:.1f}" for x, y in pts)
-    area = f"M{pts[0][0]:.1f},{top + ph} L" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts) + f" L{pts[-1][0]:.1f},{top + ph} Z"
+    line = monotone_path(pts)
+    area = line + f" L{pts[-1][0]:.1f},{top + ph} L{pts[0][0]:.1f},{top + ph} Z"
 
     grid, ylabels = [], []
     for k in range(5):
@@ -203,9 +226,10 @@ def activity_svg(days):
     <g stroke="{DATES}" stroke-opacity=".15">{"".join(grid)}</g>
     <g font-size="13" fill="{DATES}">{"".join(ylabels)}{xlabels}</g>
     <text transform="translate(22 {top + ph / 2}) rotate(-90)" text-anchor="middle" font-size="13" fill="{DATES}">Contributions</text>
+    <text x="{left + pw / 2}" y="{h - 14}" text-anchor="middle" font-size="13" fill="{DATES}">Days</text>
   </g>
   <path d="{area}" fill="url(#actArea)"/>
-  <polyline points="{line}" fill="none" stroke="{RING}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="{line}" fill="none" stroke="{RING}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
   <g fill="{NUM}">{points}</g>
 </svg>
 """
