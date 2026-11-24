@@ -9,7 +9,7 @@
         aria-labelledby="descId"
       >
         <title id="titleId">Kusanagi&#39;s GitHub Stats, Rank: A-</title>
-        <desc id="descId">Total Commits  : 4758, Total PRs: 1407, Total Issues: 460, Contributed to (last year): 46</desc>
+        <desc id="descId">Total Commits  : 4843, Total PRs: 1429, Total Issues: 460, Contributed to (last year): 45</desc>
         <style>
           .header {
             font: 600 18px 'Segoe UI', Ubuntu, Sans-Serif;
@@ -73,7 +73,7 @@
         stroke-dashoffset: 251.32741228718345;
       }
       to {
-        stroke-dashoffset: 90.51918793319709;
+        stroke-dashoffset: 90.4306148854763;
       }
     }
   
@@ -221,7 +221,7 @@
         x="224.01"
         y="12.5"
         data-testid="contribs"
-      >46</text>
+      >45</text>
     </g>
   </g>
     </svg>
